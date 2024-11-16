@@ -1,0 +1,93 @@
+ // Ticket Booking Form Validation
+document.getElementById('ticketForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let name = document.getElementById('name').value;
+    let email = document.getElementById('email').value;
+    let movie = document.getElementById('movie').value;
+    let seats = document.getElementById('seats').value;
+    
+    let messageDiv = document.getElementById('message');
+
+    // Validate email format
+    let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+        messageDiv.innerHTML = "<p style='color: red;'>Please enter a valid email address.</p>";
+        return;
+    }
+
+    // Validate number of seats
+    if (seats <= 0) {
+        messageDiv.innerHTML = "<p style='color: red;'>Please enter a valid number of seats.</p>";
+        return;
+    }
+
+    // If everything is valid
+    messageDiv.innerHTML = <p style='color: green;'>Your tickets for ${movie} have been booked successfully! You reserved ${seats} seats.</p>;
+});
+
+// To-Do List Functionality
+let todoList = [];
+
+document.getElementById('todoForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    let taskInput = document.getElementById('todoInput').value;
+    if (taskInput) {
+        todoList.push(taskInput);
+        renderTodoList();
+    }
+});
+
+function renderTodoList() {
+    let todoContainer = document.getElementById('todoList');
+    todoContainer.innerHTML = '';
+    todoList.forEach((task, index) => {
+        let taskItem = document.createElement('div');
+        taskItem.className = 'todo-item';
+        taskItem.innerHTML = `
+            <span>${task}</span>
+            <button onclick="removeTask(${index})">Remove</button>
+        `;
+        todoContainer.appendChild(taskItem);
+    });
+}
+
+function removeTask(index) {
+    todoList.splice(index, 1);
+    renderTodoList();
+}
+
+// Image Gallery - Allowing User to Add Images
+let galleryImages = [];
+
+document.getElementById('galleryForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let imageURL = document.getElementById('imageURL').value;
+
+    // Validate if the image URL is non-empty and correct format
+    if (imageURL) {
+        galleryImages.push(imageURL);
+        renderGallery();
+    } else {
+        alert("Please enter a valid image URL");
+    }
+
+    document.getElementById('imageURL').value = ""; // Clear the input after adding
+});
+
+function renderGallery() {
+    let galleryContainer = document.getElementById('galleryContainer');
+    galleryContainer.innerHTML = '';
+
+    galleryImages.forEach(imageURL => {
+        let imgElement = document.createElement('img');
+        imgElement.src = imageURL;
+        imgElement.alt = 'Movie Poster';
+        imgElement.style.width = '100%';
+        imgElement.style.borderRadius = '8px';
+        imgElement.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+        galleryContainer.appendChild(imgElement);
+    });
+}
